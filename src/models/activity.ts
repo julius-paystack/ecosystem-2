@@ -55,7 +55,7 @@ const activitySchema = new mongoose.Schema({
     },
     public: {
         type: Boolean,
-        deafult: false,
+        default: false,
         required: true,
     },
     community_id: {
