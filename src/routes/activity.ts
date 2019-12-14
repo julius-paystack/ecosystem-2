@@ -12,4 +12,6 @@ const isUser = auth(AuthUserType.User);
 router.get('/', isUser, Controller.getActivities);
 router.post('/create', isUser, Controller.createActivity);
 
+router.get('/template', Controller.getTemplates);
+
 export default router;
