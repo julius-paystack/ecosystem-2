@@ -49,6 +49,14 @@ Schema.methods.hasExpired = function(this: AuthModel): boolean {
 	return new Date >= this.expires;
 }
 
+/** Prepare for json serialization */
+Schema.methods.toJSON = function(): any {
+	return {
+		token: this.token,
+		expires: this.expires
+	}
+}
+
 const Auth: IAuthModel = mongoose.model('Auth', Schema);
 export default Auth;
 

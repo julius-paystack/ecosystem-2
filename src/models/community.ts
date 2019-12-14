@@ -9,7 +9,7 @@ export interface CommunityModel extends mongoose.Document {
 	state: string,
 	country: string,
 	created_by: string,
-	media: string,
+	cover_image: string,
 
 	getCreator(): Promise<UserModel>
 }
@@ -27,7 +27,7 @@ const Schema = new mongoose.Schema(
 		state: String,
 		country: String,
 		created_by: String,
-		media: String,
+		cover_image: String,
 	},
 	{
 		timestamps: {
