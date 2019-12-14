@@ -13,4 +13,8 @@ router.post('/', isUser, Controller.create);
 
 router.get('/:id', isUser, Controller.getCommunity);
 
+router.get('/', Controller.getCommunites);
+
+router.post('/:id/join', isUser, Controller.joinCommunity);
+
 export default router;

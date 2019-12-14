@@ -49,3 +49,26 @@ export async function getCommunity(req: Request, res: Response) {
 	})
 }
 
+export async function getCommunites(req: Request, res: Response) {
+	const communities = await Community.find();
+
+	res.json({
+		status: true,
+		data: { communities }
+	});
+}
+
+export async function joinCommunity(req: Request, res: Response) {
+	const user: UserModel = (req as any).user;
+
+	await user.addCommunity(req.params.id);
+
+	const communities = await user.getCommunites();
+
+	res.json({
+		status: true,
+		message: 'Community joined successfully',
+		data: { communities }
+	})
+}
+

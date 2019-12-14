@@ -13,4 +13,6 @@ router.get('/', isUser, Controller.getActivities);
 router.post('/create', isUser, Controller.createActivity);
 router.get('/get-user-activities', isUser, Controller.getUserActivities);
 
+router.get('/template', Controller.getTemplates);
+
 export default router;

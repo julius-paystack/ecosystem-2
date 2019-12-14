@@ -40,5 +40,9 @@
     "@types/mongoose": "^5.5.34",
     "concurrently": "^5.0.1",
     "nodemon": "^2.0.2"
-  }
+  },
+  "engines": {
+    "node": "10.14.0"
+  },
+  "heroku-run-build-script": true
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import activityLogic from "../libraries/activity";
 import { UserModel } from "../models/user";
+import { ActivityTemplates } from "../libraries/activity-templates";
 
 export async function getActivities(req: Request, res: Response) {
     const activities = await activityLogic.getUpcomingActivities();
@@ -40,5 +41,14 @@ export async function getUserActivities(req: Request, res: Response) {
         status: true,
         message: 'Activities Successfully retrieved',
         data: { activities: activities_response }
-	});
+    });
+}
+
+export async function getTemplates(req: Request, res: Response) {
+    const templates = ActivityTemplates;
+
+    res.json({
+        status: true,
+        data: { templates }
+    });
 }
