@@ -11,4 +11,6 @@ const isUser = auth(AuthUserType.User);
 
 router.post('/', isUser, Controller.create);
 
+router.get('/:id', isUser, Controller.getCommunity);
+
 export default router;
