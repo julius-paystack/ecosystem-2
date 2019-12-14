@@ -7,6 +7,7 @@ import cors from 'cors';
 import logger from "./libraries/logger";
 import util from 'util';
 import mongoose from 'mongoose';
+import router from './routes';
 
 if (fs.existsSync(__dirname+"/../.env")) {
 	// logger.debug("Using .env file to supply config environment variables");
@@ -35,6 +36,9 @@ app.use(cors());
 app.set("port", process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
+app.use(router);
 
 // Error handler
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {

@@ -9,5 +9,8 @@ const router = express.Router();
 /** User authentication */
 const isUser = auth(AuthUserType.User);
 
+router.post('/signup', Controller.signUp);
+
+router.post('/login', Controller.logIn);
 
 export default router;

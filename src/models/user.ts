@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import randomstring from "randomstring";
 import Util from '../libraries/utils';
+import dayjs from 'dayjs';
 
 export interface UserModel extends mongoose.Document {
 	user_id: string,
@@ -12,9 +13,9 @@ export interface UserModel extends mongoose.Document {
 	password: string,
 	communities: string[]
 
-	comparepassword(candidate_password: string): Promise<boolean>;
+	comparePassword(candidate_password: string): Promise<boolean>;
 	getName(): string;
-
+	generateAuth(): Promise<AuthModel>;
 }
 
 export interface IUserModel extends mongoose.Model<UserModel> {
@@ -65,6 +66,17 @@ Schema.methods.toJSON = function(this: UserModel): any {
 	return obj;
 };
 
+Schema.methods.generateAuth = function(this: UserModel): Promise<AuthModel> {
+	const auth: AuthModel = new Auth({
+		token: randomstring.generate(64),
+		user_type: AuthUserType.User,
+		user_id: this.user_id,
+		expires: dayjs().add(1, 'year').toDate()
+	});
+
+	return auth.save();
+};
+
 Schema.statics.generateUserId = async function(): Promise<string> {
 	let user_id: string;
 	do {
@@ -79,3 +91,5 @@ Schema.statics.generateUserId = async function(): Promise<string> {
 
 const User = <IUserModel> mongoose.model('User', Schema);
 export default User;
+
+import Auth, { AuthModel, AuthUserType } from "./auth";
