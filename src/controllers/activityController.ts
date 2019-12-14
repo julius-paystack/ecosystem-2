@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import activityLogic from "../libraries/activity";
 import { UserModel } from "../models/user";
+import { ActivityTemplates } from "../libraries/activity-templates";
 
 export async function getActivities(req: Request, res: Response) {
     const user: UserModel = (req as any).user;
@@ -29,4 +30,13 @@ export async function createActivity(req: Request, res: Response) {
         message: 'Activity Successfully Saved',
         data: { activity }
 	});
+}
+
+export async function getTemplates(req: Request, res: Response) {
+    const templates = ActivityTemplates;
+
+    res.json({
+        status: true,
+        data: { templates }
+    });
 }
