@@ -4,7 +4,18 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run serve",
+    "build": "npm run build-ts",
+    "serve": "node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "test": "jest --forceExit --coverage --verbose",
+    "watch-test": "npm run test -- --watchAll",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect=127.0.0.1:9222 dist/server.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +27,8 @@
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
     "express-async-errors": "^3.1.1",
+    "express-bearer-token": "^2.4.0",
+    "minified-headless": "^0.1.0",
     "mongoose": "^5.8.1",
     "randomstring": "^1.1.5",
     "typescript": "^3.7.3",
