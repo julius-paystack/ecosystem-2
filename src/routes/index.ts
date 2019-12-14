@@ -2,6 +2,7 @@ import { default as express, Request, Response, NextFunction} from "express";
 import bearer from "express-bearer-token";
 
 import user from "./user";
+import community from './community';
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.all("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.use(user);
+router.use('/community', community);
 
 export default router;
