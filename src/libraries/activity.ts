@@ -1,6 +1,7 @@
 import Activity, { ActivityModel } from "../models/activity";
 import { UserModel } from "../models/user";
 import { ActivityTemplates } from "./activity-templates";
+import Community from "../models/community";
 
 const activityLogic = {
 
@@ -42,6 +43,17 @@ const activityLogic = {
         const activities = await Activity.getUserActivities(user);
         return activities;
     },
+
+    populateActivitiesData: async (activities) => {
+        const activities_response = [];
+        for (const activity of activities) {
+            const community = await Community.findOne({ community_id: activity.community_id });
+            const template = ActivityTemplates.find(template => template.id == activity.template_id);
+            const copy = { ...activity.toJSON(), community, template }
+            activities_response.push(copy);
+        }
+        return activities_response;
+    }
 }
 
 export default activityLogic;

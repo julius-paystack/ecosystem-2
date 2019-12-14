@@ -3,13 +3,13 @@ import activityLogic from "../libraries/activity";
 import { UserModel } from "../models/user";
 
 export async function getActivities(req: Request, res: Response) {
-    const user: UserModel = (req as any).user;
     const activities = await activityLogic.getUpcomingActivities();
-    
+    const activities_response = await activityLogic.populateActivitiesData(activities);
+
     return res.json({
         status: true,
         message: activities.length ? 'Activities retrieved successfully' : 'No saved activity',
-        data: { activities }
+        data: { activities: activities_response }
 	});
 }
 
@@ -34,9 +34,11 @@ export async function createActivity(req: Request, res: Response) {
 export async function getUserActivities(req: Request, res: Response) {
     const user: UserModel = (req as any).user;
     const activities = await activityLogic.getUserActivities(user);
+    const activities_response = await activityLogic.populateActivitiesData(activities);
+
     return res.json({
         status: true,
         message: 'Activities Successfully retrieved',
-        data: { activities }
+        data: { activities: activities_response }
 	});
 }
