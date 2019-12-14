@@ -34,3 +34,18 @@ export async function create(req: Request, res: Response) {
 	})
 }
 
+export async function getCommunity(req: Request, res: Response) {
+	const community_id = req.params.id;
+
+	const community = await Community.findOne({ community_id });
+	if(!community) return res.status(404).json({
+		status: false,
+		message: 'Community does not exist'
+	});
+
+	return res.json({
+		status: true,
+		data: { community }
+	})
+}
+

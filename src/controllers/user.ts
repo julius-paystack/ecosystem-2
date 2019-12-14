@@ -68,12 +68,14 @@ export async function logIn(req: Request, res: Response) {
 }
 
 export async function profile(req: Request, res: Response) {
-	const user = (req as any).user;
+	const user: UserModel = (req as any).user;
 	const auth = (req as any).auth;
+
+	const communities = await user.getCommunites();
 
 	res.json({
 		status: true,
-		data: { user, auth }
+		data: { user, auth, communities }
 	})
 
 }

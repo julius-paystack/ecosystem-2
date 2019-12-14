@@ -17,6 +17,7 @@ export interface UserModel extends mongoose.Document {
 	getName(): string;
 	generateAuth(): Promise<AuthModel>;
 	addCommunity(community_id: string): Promise<void>;
+	getCommunites(): Promise<CommunityModel[]>
 }
 
 export interface IUserModel extends mongoose.Model<UserModel> {
@@ -67,8 +68,12 @@ Schema.methods.addCommunity = async function(this: UserModel, community_id: stri
 	await this.save();
 };
 
+Schema.methods.getCommunites = function (this: UserModel): Promise<CommunityModel[]> {
+	return Community.find({ community_id: { $in: this.communities } }).exec();
+}
+
 Schema.methods.toJSON = function(this: UserModel): any {
-	const obj = Util.blackFields(this.toObject(),["password", "_id", "__v"]);
+	const obj = Util.blackFields(this.toObject(),["password", "_id", "__v", 'communities']);
 	return obj;
 };
 
@@ -98,4 +103,5 @@ Schema.statics.generateUserId = async function(): Promise<string> {
 const User = <IUserModel> mongoose.model('User', Schema);
 export default User;
 
-import Auth, { AuthModel, AuthUserType } from "./auth";
+import Auth, { AuthModel, AuthUserType } from "./auth";import Community, { CommunityModel } from "./community";
+
