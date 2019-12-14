@@ -16,6 +16,7 @@ export interface UserModel extends mongoose.Document {
 	comparePassword(candidate_password: string): Promise<boolean>;
 	getName(): string;
 	generateAuth(): Promise<AuthModel>;
+	addCommunity(community_id: string): Promise<void>;
 }
 
 export interface IUserModel extends mongoose.Model<UserModel> {
@@ -59,6 +60,11 @@ Schema.methods.comparePassword = function (this: UserModel, candidate_password) 
 
 Schema.methods.getName = function(this: UserModel): string {
 	return this.first_name + " " + this.last_name;
+};
+
+Schema.methods.addCommunity = async function(this: UserModel, community_id: string) {
+	this.communities.push(community_id);
+	await this.save();
 };
 
 Schema.methods.toJSON = function(this: UserModel): any {

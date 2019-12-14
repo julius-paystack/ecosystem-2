@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import randomstring from "randomstring";
 import User, { UserModel } from "../models/user";
 
 
@@ -66,4 +65,15 @@ export async function logIn(req: Request, res: Response) {
 		message: "Logged in successfully",
 		data: { user, auth }
 	})
+}
+
+export async function profile(req: Request, res: Response) {
+	const user = (req as any).user;
+	const auth = (req as any).auth;
+
+	res.json({
+		status: true,
+		data: { user, auth }
+	})
+
 }

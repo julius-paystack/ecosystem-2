@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import randomstring from "randomstring";
+import Util from '../libraries/utils';
 
 export interface CommunityModel extends mongoose.Document {
 	community_id: string,
@@ -39,6 +40,11 @@ const Schema = new mongoose.Schema(
 
 Schema.methods.getCreator = function(this: CommunityModel): Promise<UserModel> {
 	return User.findOne({ user_id: this.created_by }).exec();
+};
+
+Schema.methods.toJSON = function(this: CommunityModel) {
+	const obj = Util.blackFields(this.toObject(), ['_id', '__v']);
+	return obj;
 };
 
 Schema.statics.generateCommunityId = async function(): Promise<string> {

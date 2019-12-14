@@ -3,6 +3,7 @@ import bearer from "express-bearer-token";
 
 import user from "./user";
 import activity from "./activity";
+import community from './community';
 
 const router = express.Router();
 
@@ -21,5 +22,7 @@ router.all("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.use(user);
-router.use(activity);
+router.use('/activity', activity);
+router.use('/community', community);
+
 export default router;
