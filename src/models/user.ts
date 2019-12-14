@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import randomstring from "randomstring";
+import Util from '../libraries/utils';
 
 export interface UserModel extends mongoose.Document {
 	user_id: string,
@@ -57,6 +58,11 @@ Schema.methods.comparePassword = function (this: UserModel, candidate_password) 
 
 Schema.methods.getName = function(this: UserModel): string {
 	return this.first_name + " " + this.last_name;
+};
+
+Schema.methods.toJSON = function(this: UserModel): any {
+	const obj = Util.blackFields(this.toObject(),["password", "_id", "__v"]);
+	return obj;
 };
 
 Schema.statics.generateUserId = async function(): Promise<string> {
