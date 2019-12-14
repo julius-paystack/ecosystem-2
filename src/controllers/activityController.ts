@@ -30,3 +30,13 @@ export async function createActivity(req: Request, res: Response) {
         data: { activity }
 	});
 }
+
+export async function getUserActivities(req: Request, res: Response) {
+    const user: UserModel = (req as any).user;
+    const activities = await activityLogic.getUserActivities(user);
+    return res.json({
+        status: true,
+        message: 'Activities Successfully retrieved',
+        data: { activities }
+	});
+}

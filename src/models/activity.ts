@@ -12,11 +12,12 @@ export type ActivityModel = mongoose.Document & {
     community_id: string,
     user_ids: string[],
     status: activityStatus,
-    getCreator: () => Promise <UserModel>
+    getCreator: () => Promise <UserModel>,
 }
 
 export interface IActivityModel extends mongoose.Model<ActivityModel> {
-    generateActivityId(): Promise<string>
+    generateActivityId(): Promise<string>,
+    getUserActivities(user: UserModel): Promise<ActivityModel[]>,
 }
 
 export enum activityStatus {
@@ -73,6 +74,11 @@ activitySchema.methods.toJSON = function(this: ActivityModel) {
 	const obj = Util.blackFields(this.toObject(), ['_id', '__v']);
 	return obj;
 };
+
+activitySchema.statics.getUserActivities = function(user: UserModel): Promise<ActivityModel[]> {
+    return Activity.find({ community_id: { $in: user.communities }
+    }).exec();
+}
 
 activitySchema.statics.generateActivityId = async function(): Promise<string> {
     let activity_id: string;

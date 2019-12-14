@@ -37,6 +37,11 @@ const activityLogic = {
         await activity.save();
         return activity;
     },
+
+    getUserActivities: async (user: UserModel) => {
+        const activities = await Activity.getUserActivities(user);
+        return activities;
+    },
 }
 
 export default activityLogic;
