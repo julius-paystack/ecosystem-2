@@ -64,7 +64,9 @@ Schema.methods.getName = function(this: UserModel): string {
 };
 
 Schema.methods.addCommunity = async function(this: UserModel, community_id: string) {
-	this.communities.push(community_id);
+	const communities = new Set(this.communities);
+	communities.add(community_id);
+	this.communities = [...communities];
 	await this.save();
 };
 
