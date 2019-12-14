@@ -49,3 +49,12 @@ export async function getCommunity(req: Request, res: Response) {
 	})
 }
 
+export async function getCommunites(req: Request, res: Response) {
+	const communities = await Community.find();
+
+	res.json({
+		status: true,
+		data: { communities }
+	});
+}
+

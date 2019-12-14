@@ -13,4 +13,6 @@ router.post('/', isUser, Controller.create);
 
 router.get('/:id', isUser, Controller.getCommunity);
 
+router.get('/', Controller.getCommunites);
+
 export default router;
