@@ -4,19 +4,28 @@ import randomstring from "randomstring";
 export type ActivityModel = mongoose.Document & {
     activity_id: string,
     created_by: string,
-    title: string,
-    description: string,
+    template_id: string,
     media: string,
-    scheduled_date: string,
-    completed_at: Date,
+    start_date: string,
+    end_date: Date,
     public: boolean,
     community_id: string,
     user_ids: string[],
+    status: activityStatus,
     getCreator: () => Promise <UserModel>
 }
 
 export interface IActivityModel extends mongoose.Model<ActivityModel> {
     generateActivityId(): Promise<string>
+}
+
+export enum activityStatus {
+    /** The activity hasnt started yet */
+    Pending = "pending",
+    /** The activity has started but isnt complete */
+    Ongoing = "ongoing",
+    /** The activity has started but isnt complete */
+    complete = "complete"
 }
 
 const activitySchema = new mongoose.Schema({
@@ -28,24 +37,19 @@ const activitySchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    title: {
+    template_id: {
         type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        default: 'Paystack Hackathon',
         required: true,
     },
     media: {
         type: String,
         required: true,
     },
-    scheduled_date: {
+    start_date: {
         type: Date,
         required: true,
     },
-    completed_at: {
+    end_date: {
         type: Date,
         required: true,
     },
@@ -56,6 +60,11 @@ const activitySchema = new mongoose.Schema({
     },
     community_id: {
         type: String,
+    },
+    status: {
+        type: String,
+        default: activityStatus.Pending,
+        required: true,
     },
     user_ids: [{
         type: String,
