@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from 'dotenv';
 import fs from 'fs';
 import cors from 'cors';
-import logger from "./util/logger";
+import logger from "./libraries/logger";
 import util from 'util';
 import * as mongoose from 'mongoose';
 
