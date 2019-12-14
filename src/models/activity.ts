@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import randomstring from "randomstring";
+import Util from '../libraries/utils';
 
 export type ActivityModel = mongoose.Document & {
     activity_id: string,
@@ -8,7 +9,6 @@ export type ActivityModel = mongoose.Document & {
     media: string,
     start_date: string,
     end_date: Date,
-    public: boolean,
     community_id: string,
     user_ids: string[],
     status: activityStatus,
@@ -34,8 +34,7 @@ const activitySchema = new mongoose.Schema({
         required: true,
     },
     created_by: {
-        type: Date,
-        default: Date.now()
+        type: String
     },
     template_id: {
         type: String,
@@ -53,11 +52,6 @@ const activitySchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    public: {
-        type: Boolean,
-        default: false,
-        required: true,
-    },
     community_id: {
         type: String,
     },
@@ -73,6 +67,11 @@ const activitySchema = new mongoose.Schema({
 
 activitySchema.methods.getCreator = function(this: ActivityModel): Promise<UserModel> {
 	return User.findOne({ user_id: this.created_by }).exec();
+};
+
+activitySchema.methods.toJSON = function(this: ActivityModel) {
+	const obj = Util.blackFields(this.toObject(), ['_id', '__v']);
+	return obj;
 };
 
 activitySchema.statics.generateActivityId = async function(): Promise<string> {
