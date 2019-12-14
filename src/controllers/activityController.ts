@@ -4,13 +4,13 @@ import { UserModel } from "../models/user";
 import { ActivityTemplates } from "../libraries/activity-templates";
 
 export async function getActivities(req: Request, res: Response) {
-    const user: UserModel = (req as any).user;
     const activities = await activityLogic.getUpcomingActivities();
-    
+    const activities_response = await activityLogic.populateActivitiesData(activities);
+
     return res.json({
         status: true,
         message: activities.length ? 'Activities retrieved successfully' : 'No saved activity',
-        data: { activities }
+        data: { activities: activities_response }
 	});
 }
 
@@ -30,6 +30,18 @@ export async function createActivity(req: Request, res: Response) {
         message: 'Activity Successfully Saved',
         data: { activity }
 	});
+}
+
+export async function getUserActivities(req: Request, res: Response) {
+    const user: UserModel = (req as any).user;
+    const activities = await activityLogic.getUserActivities(user);
+    const activities_response = await activityLogic.populateActivitiesData(activities);
+
+    return res.json({
+        status: true,
+        message: 'Activities Successfully retrieved',
+        data: { activities: activities_response }
+    });
 }
 
 export async function getTemplates(req: Request, res: Response) {
