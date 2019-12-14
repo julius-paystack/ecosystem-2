@@ -1,4 +1,4 @@
-import { default as express, Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction } from "express";
 require('express-async-errors');
 import bodyParser from "body-parser";
 import dotenv from 'dotenv';
@@ -6,14 +6,14 @@ import fs from 'fs';
 import cors from 'cors';
 import logger from "./libraries/logger";
 import util from 'util';
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
-if (fs.existsSync(__dirname+"/../../.env")) {
+if (fs.existsSync(__dirname+"/../.env")) {
 	// logger.debug("Using .env file to supply config environment variables");
-	dotenv.config({ path: __dirname+"/../../.env" });
+	dotenv.config({ path: __dirname+"/../.env" });
 } else {
 	// logger.debug("Using .env.example file to supply config environment variables");
-	dotenv.config({ path: __dirname+"/../../.env.example" });  // you can delete this after you create your own .env file!
+	dotenv.config({ path: __dirname+"/../.env.example" });  // you can delete this after you create your own .env file!
 }
 
 const app = express();
