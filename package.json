@@ -26,7 +26,7 @@
     "dayjs": "^1.8.17",
     "dotenv": "^8.2.0",
     "errorhandler": "^1.5.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
     "express-bearer-token": "^2.4.0",
     "minified-headless": "^0.1.0",
